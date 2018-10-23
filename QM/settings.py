@@ -113,3 +113,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static')
+]
+
+# FileField和ImageField上传文件存放的位置
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
+
+# 上传文件的URL访问的位置
+MEDIA_URL = '/static/images/'
+
