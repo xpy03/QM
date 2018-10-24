@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block css %}
+    <link rel="stylesheet" href="/static/index/css/index.css">
+{% endblock %}
+{% block content %}
+    <div id="index">
+        <div id="cate">
+            <ul>
+                <li><a class="btn btn-primary">全部</a></li></li>
+                {% for cate in cates %}
+                    <li><a class="btn btn-info">{{ cate.title }}</a></li>
+                {% endfor %}
+
+            </ul>
+        </div>
+    </div>
+{% endblock %}

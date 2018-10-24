@@ -1,0 +1,22 @@
+#index ul,li {
+    list-style: none;
+}
+
+#index li{
+    float: left;
+    margin: 5px;
+}
+
+#index ul{
+    background-color: #f2dede;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+#index ul:after{
+    content: '';
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
