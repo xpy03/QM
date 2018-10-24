@@ -4,6 +4,8 @@ import os
 from django.db import models
 
 
+from DjangoUeditor.models import UEditorField
+
 # Create your models here.
 class Category(models.Model):
     title = models.CharField(max_length=20,
@@ -48,12 +50,18 @@ class Book(models.Model):
     summary = models.TextField(max_length=100,
                                verbose_name='简介')
 
-    info = models.TextField(max_length=200,
-                            verbose_name='作品信息')
+    # info = models.TextField(max_length=200,
+    #                         verbose_name='作品信息')
+    info = UEditorField(verbose_name='作品信息',
+                        blank=True, default='',
+                        width=640, height=480,
+                        imagePath='ueditor/imgs/',
+                        filePath='ueditor/files/',
+                        toolbars='full')  # mini, normal, full
 
-    # 如何修改文件名？
     cover = models.ImageField(verbose_name='封面',
-                              upload_to='book')  # 相对于MEDIA_ROOT目录
+                              upload_to='book',
+                              blank=True, null=True)  # 相对于MEDIA_ROOT目录
 
     tags = models.ManyToManyField(Tag,
                                   verbose_name='标签')
@@ -64,7 +72,8 @@ class Book(models.Model):
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
-        self.cover.name = str(uuid.uuid4()).replace('-', '')+ os.path.splitext(self.cover.name)[-1]
+        if len(self.cover.name) < 30:
+            self.cover.name = str(uuid.uuid4()).replace('-', '')+ os.path.splitext(self.cover.name)[-1]
         super().save()
 
     def __str__(self):

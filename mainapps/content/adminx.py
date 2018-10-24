@@ -53,6 +53,11 @@ class BookAdmin():
                     'category'
                     ]
 
+    # 设置字段的样式（编辑表单使用的样式）
+    style_fields = {
+        'info': 'ueditor'
+    }
+
 
 xadmin.site.register(Category, CategoryAdmin)
 xadmin.site.register(Tag, TagAdmin)
