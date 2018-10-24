@@ -8,7 +8,7 @@
 }
 
 #index ul{
-    background-color: #f2dede;
+    background-color: #f9f9f9;
     padding: 5px;
     border-radius: 5px;
 }
@@ -19,4 +19,28 @@
     height: 0;
     clear: both;
     visibility: hidden;
+}
+
+
+#books {
+    font-size: 1.4rem;
+}
+
+#books dd {
+    padding: 5px;
+}
+
+#books li{
+    background-color: #f2dede;
+    padding: 0;
+    text-align: center;
+}
+
+#books li dd a {
+    margin-bottom: -15px;
+}
+
+#books img:hover{
+    transform: scale3d(1.15, 1.15,1.15);
+    transition: transform linear .1s;
 }
