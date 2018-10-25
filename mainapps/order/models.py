@@ -1,23 +1,27 @@
 from django.db import models
-from sqlite3 import Cursor
 
 from datetime import date
 
+from django.db.backends.sqlite3.base import DatabaseWrapper
+
 
 class OrderNumberField(models.CharField):
-    def get_db_prep_value(self, value, connection, prepared=False):
+    def get_db_prep_value(self, value, connection:DatabaseWrapper, prepared=False):
         print('--->value:', value)
         if not value:
             print('--预处理订单号--')
             cursor = connection.cursor()
-            cursor.execute('select cn from t_order where id = (select max(id) from t_order)')
+
+            cursor.execute("select cn from t_order ORDER by id DESC limit 0, 1")
+            row = cursor.fetchone()  # 获取查询记录   返回是tuple
 
             current_date = date.strftime(date.today(), '%Y%m%d')
-            print('--select rowcount--', cursor.rowcount)
-            if cursor.rowcount > 0:  # 没有记录时，rowcount = -1
-                cn = cursor.fetchone()[0]  # fetchone()返回是tuple
+
+            if row:  # 空元组是没有记录的
+                cn = row[0]
                 date_, number = cn[:8], cn[8:]
 
+                cursor.close()
                 if date_ == current_date:
                     number = str(int(number)+1).rjust(4, '0')
                     return '%s%s' % (date_, number)
