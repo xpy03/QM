@@ -14,6 +14,7 @@ class GlobalSetting():
     site_title = '趣文管理后台'
     site_footer = '西安趣文科技'
 
+    menu_style = 'accordion'  # 菜单折叠
     # 公共搜索模型(问题： 一个模型类不显示搜索框)
     global_search_models = [Category, Tag]
 
@@ -28,6 +29,11 @@ class GlobalSetting():
     apps_icons = {
         'content': 'glyphicon glyphicon-book'
     }
+
+    apps_label_title = {
+        'content': '小说管理'
+    }
+
 
 xadmin.site.register(views.BaseAdminView, BaseSetting)
 xadmin.site.register(views.CommAdminView, GlobalSetting)

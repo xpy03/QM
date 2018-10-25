@@ -41,6 +41,8 @@
 }
 
 #books img:hover{
-    transform: scale3d(1.15, 1.15,1.15);
+     transform: scale3d(1.15, 1.15, 1.15);
+    /*transform: rotateY(30deg);*/
+    /*transform-origin: 0.5%;*/
     transition: transform linear .1s;
 }

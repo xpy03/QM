@@ -23,7 +23,7 @@ class Category(models.Model):
 
     class Meta:
         db_table = 't_category'
-        verbose_name = '小说分类'
+        verbose_name = '分类'
         verbose_name_plural = verbose_name
         ordering = ['-add_time']
 

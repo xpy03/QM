@@ -2,14 +2,12 @@ from django.db import models
 
 from datetime import date
 
-from django.db.backends.sqlite3.base import DatabaseWrapper
+from django.db.backends.base.base import BaseDatabaseWrapper
 
 
 class OrderNumberField(models.CharField):
-    def get_db_prep_value(self, value, connection:DatabaseWrapper, prepared=False):
-        print('--->value:', value)
-        if not value:
-            print('--预处理订单号--')
+    def get_db_prep_value(self, value, connection: BaseDatabaseWrapper, prepared=False) -> str:
+        if not value:  # 避免 更新时 重新生成 单号
             cursor = connection.cursor()
 
             cursor.execute("select cn from t_order ORDER by id DESC limit 0, 1")
@@ -20,8 +18,6 @@ class OrderNumberField(models.CharField):
             if row:  # 空元组是没有记录的
                 cn = row[0]
                 date_, number = cn[:8], cn[8:]
-
-                cursor.close()
                 if date_ == current_date:
                     number = str(int(number)+1).rjust(4, '0')
                     return '%s%s' % (date_, number)

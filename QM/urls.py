@@ -29,5 +29,6 @@ def to_index(request):
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^ueditor/', include('DjangoUeditor.urls')),
+    url(r'^book/', include('content.urls')),
     url(r'', to_index),
 ]
