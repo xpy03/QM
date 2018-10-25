@@ -53,32 +53,13 @@
             <div class="rank">
                 <h3>周排行</h3>
                 <ul>
-                    <li>
-                        <span class="no no1">1</span>
-                        <span>大明武夫</span>
-                        <span>10000</span>
-                    </li>
-                    <li>
-                        <span class="no no2">2</span>
-                        <span>大明武夫</span>
-                        <span>9000</span>
-                    </li>
-                    <li>
-                        <span class="no no3">3</span>
-                        <span>大明武夫</span>
-                        <span>100</span>
-                    </li>
-                    <li>
-                        <span class="no">4</span>
-                        <span>大明武夫</span>
-                        <span>80</span>
-
-                    </li>
-                    <li>
-                        <span class="no">5</span>
-                        <span>大明武夫</span>
-                        <span>60</span>
-                    </li>
+                    {% for rank_book in rank_books %}
+                        <li>
+                            <span class="no {% if forloop.counter <= 3 %}no{{ forloop.counter }}{% endif %}">{{ forloop.counter }}</span>
+                            <span><a href="/book/show/{{ rank_book.0.id }}/">{{ rank_book.0.title }}</a></span>
+                            <span>{{ rank_book.1 }}</span>
+                        </li>
+                    {% endfor %}
                 </ul>
             </div>
 

@@ -69,6 +69,7 @@
 }
 
 .rank li span:last-child{
-    margin-left: 100px;
+    position: absolute;
+    right: 20px;
     color: darkgray;
 }
