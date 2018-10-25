@@ -6,7 +6,8 @@ import xadmin as admin
 
 from content.models import Category, Book
 
-def toIndex(request):
+
+def to_index(request):
     # 查询一级分类
     cates = Category.objects.filter(parent__isnull=True).all()
 
@@ -24,8 +25,9 @@ def toIndex(request):
 
     return render(request, 'index.html', locals())
 
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^ueditor/', include('DjangoUeditor.urls')),
-    url(r'', toIndex),
+    url(r'', to_index),
 ]
