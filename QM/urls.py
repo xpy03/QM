@@ -23,8 +23,6 @@ def to_index(request):
     # 获取page参数值
     pager = paginator.page(request.GET.get('page', 1))  # 获取第一页
 
-    login_user = request.session.get('login_user')
-
     return render(request, 'index.html', locals())
 
 
