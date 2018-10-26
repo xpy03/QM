@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block css %}
+    <link rel="stylesheet" href="/static/user/css/user.css">
+{% endblock %}
+{% block content %}
+    <div id="regist">
+        <h3>用户登录</h3>
+        <hr>
+        <form class="form form-horizontal"
+              action="/user/login/"
+              method="post">
+
+            <div class="form-group">
+                <label class="col-xs-3 text-right">账号：</label>
+                <div class="col-xs-6">
+                    <input  class="form-control" name="username" value="{{ username }}" placeholder="登录用户名">
+                </div>
+            </div>
+             <div class="form-group">
+                <label class="col-xs-3 text-right">口令：</label>
+                <div class="col-xs-6">
+                    <input class="form-control" type="password" name="password" placeholder="登录口令">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-offset-3"
+                     style="padding-left: 20px">
+                    <button class="btn btn-primary">登录</button>
+                    <a href="/user/regist/" class="btn btn-link">未注册用户, 先注册</a>
+                </div>
+
+            </div>
+        </form>
+        <div class="error">
+            {% if errors %}
+                <h4 class="text-danger" style="margin-left: 200px;">{{ errors.msg }}</h4>
+            {% endif %}
+
+        </div>
+
+    </div>
+{% endblock %}

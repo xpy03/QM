@@ -23,6 +23,8 @@ def to_index(request):
     # 获取page参数值
     pager = paginator.page(request.GET.get('page', 1))  # 获取第一页
 
+    login_user = request.session.get('login_user')
+
     return render(request, 'index.html', locals())
 
 
@@ -30,5 +32,6 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^ueditor/', include('DjangoUeditor.urls')),
     url(r'^book/', include('content.urls')),
+    url(r'^user/', include('user.urls')),
     url(r'', to_index),
 ]

@@ -1,0 +1,6 @@
+#regist {
+    height: 800px;
+}
+#regist > form label, span{
+    line-height: 30px;
+}

@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% block css %}
+    <link rel="stylesheet" href="/static/user/css/user.css">
+{% endblock %}
+{% block content %}
+    <div id="regist">
+        <h3>用户注册</h3>
+        <hr>
+        <form class="form form-horizontal"
+              action="/user/regist/"
+              method="post">
+
+            <div class="form-group">
+                <label class="col-xs-2 text-right">账号：</label>
+                <div class="col-xs-6">
+                    <input  class="form-control" name="username" value="{{ form.username.value }}" placeholder="登录用户名">
+                </div>
+                <div class="col-xs-4">
+                    {% if errors.username %}
+                        <span class="text-danger">* {{ errors.username.0.message }}</span>
+                        {% else %}
+                        <span>* 至少6位字符</span>
+                    {% endif %}
+                </div>
+            </div>
+             <div class="form-group">
+                <label class="col-xs-2 text-right">口令：</label>
+                <div class="col-xs-6">
+                    <input class="form-control" type="password" name="password" placeholder="登录口令">
+                </div>
+                 <div class="col-xs-4">
+                    {% if errors.password %}
+                        <span class="text-danger">* {{ errors.password.0.message }}</span>
+                        {% else %}
+                        <span>* 至少8位字符</span>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-2 text-right">重复口令：</label>
+                <div class="col-xs-6">
+                    <input class="form-control" type="password" name="password2" placeholder="重复口令">
+                </div>
+                 <div class="col-xs-4">
+                    {% if errors.password2 %}
+                        <span class="text-danger">* {{ errors.password2.0.message }}</span>
+                        {% else %}
+                        <span></span>
+                    {% endif %}
+                </div>
+            </div>
+             <div class="form-group">
+                <label class="col-xs-2 text-right">别名：</label>
+                <div class="col-xs-6">
+                    <input class="form-control" name="nickname" value="{{ form.nickname.value }}" placeholder="输入您的昵称">
+                </div>
+                 <div class="col-xs-4">
+                    {% if errors.nickname %}
+                        <span class="text-danger">* {{ errors.nickname.0.message }}</span>
+                        {% else %}
+                        <span> </span>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-2 text-right">手机号：</label>
+                <div class="col-xs-6">
+                    <input class="form-control" name="phone" value="{{ form.phone.value }}" placeholder="手机号码">
+                </div>
+                 <div class="col-xs-4">
+                    {% if errors.phone %}
+                        <span class="text-danger">* {{ errors.phone.0.message }}</span>
+                        {% else %}
+                        <span> </span>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-xs-offset-2"
+                     style="padding-left: 20px">
+                    <button class="btn btn-primary">注册</button>
+                    <a href="#" class="btn btn-link">已注册用户, 直接登录</a>
+                </div>
+            </div>
+
+        </form>
+    </div>
+{% endblock %}

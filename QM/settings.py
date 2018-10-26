@@ -32,7 +32,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'content',
     'DjangoUeditor',
-    'order'
+    'order',
+    'user',
 ]
 
 MIDDLEWARE = [
