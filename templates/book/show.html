@@ -39,7 +39,7 @@
                             <span>{{ book.summary }}</span>
                         </div>
                         <div>
-                            <a class="btn btn-danger">免费阅读</a>
+                            <a class="btn btn-danger" onclick="qbuy_read({{ book.id }})">免费阅读</a>
                             <a class="btn btn-info">加入书架</a>
                             <a class="btn btn-info">投票互动</a>
                         </div>
@@ -66,4 +66,38 @@
         </div>
 
     </div>
+{% endblock %}
+{% block js %}
+    <script>
+        // 抢读
+        function qbuy_read(book_id) {
+            let url = '/order/qbuy/'+book_id+"/";
+            $.getJSON(url, function (data) {
+                // data 就是json数据的对象
+                if(data.code == 100){
+                    if(confirm('当前用户未登录，是否跳转到登录页面')){
+                        window.open('/user/login/', target='_self');
+                    }
+                }
+
+                // 当前按钮(a标签)的文本改成msg
+                // $(this).text(data.msg);
+                alert(data.msg);
+
+                if(data.code == 201){
+                    // 创建定时间器，每隔1秒查询抢购状态
+                    var qId = setInterval(function () {
+
+                        $.getJSON("/order/qbuy_query/"+book_id+"/", function (data) {
+                            console.log(data.msg);
+                            if(data.code != 201){
+                                // 取消定时器
+                                clearInterval(qId);
+                            }
+                        })
+                    }, 1000)
+                }
+            })
+        }
+    </script>
 {% endblock %}

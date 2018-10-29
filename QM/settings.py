@@ -19,7 +19,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -34,6 +33,7 @@ INSTALLED_APPS = [
     'DjangoUeditor',
     'order',
     'user',
+    'djcelery',
 ]
 
 MIDDLEWARE = [
@@ -67,7 +67,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'QM.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
@@ -77,7 +76,6 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
@@ -97,7 +95,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 
@@ -110,7 +107,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
@@ -126,3 +122,16 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
 # 上传文件的URL访问的位置
 MEDIA_URL = '/static/images/'
 
+# ----配置Django-Celery------
+import djcelery
+
+djcelery.setup_loader()
+
+# 消息中间件位置(Redis)
+# BROKER_URL = 'redis://:密码@127.0.0.1:6379/11'
+BROKER_URL = 'redis://127.0.0.1:6379/11'
+CELERY_IMPORTS = ('order.tasks', )  # 导入异步任务的模块
+CELERY_TIMEZONE = 'Asia/Shanghai'
+
+
+# -----End Django-Celery-----
