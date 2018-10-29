@@ -16,10 +16,8 @@ def is_buyed(key='qbuy', user_id=None):  # 判断是否已抢过了
 def add_qbuy(key='qbuy', user_id=None, goods_id=None):
     # 判断当前用户是否已抢
     if redis_cache.hexists(key, user_id):
-        print('已抢了')
         return False  # 已抢了
 
-    print('抢成功')
     redis_cache.hset(key, user_id, goods_id)
     return True  # 抢成功
 
@@ -39,3 +37,15 @@ def query_state(key='qbuy', user_id=None, goods_id=None):
     return 300, '抢购失败'
 
 
+def get_all_qbuy(key='qbuy'):
+    if redis_cache.hlen(key) == 0:
+        return
+
+    qbuy_goods = redis_cache.hgetall(key)
+    return [{'user_id': int(uid.decode()),
+             'goods_id': int(gid.decode())}
+            for uid, gid in qbuy_goods.items()]
+
+
+def clear_qbuy(key='qbuy'):
+    redis_cache.delete(key)

@@ -4,6 +4,9 @@ from datetime import date
 
 from django.db.backends.base.base import BaseDatabaseWrapper
 
+from content.models import Book
+from user.models import UserProfile
+
 
 class OrderNumberField(models.CharField):
     def get_db_prep_value(self, value, connection: BaseDatabaseWrapper, prepared=False) -> str:
@@ -53,6 +56,11 @@ class Order(models.Model):
                                      choices=pay_status_t,
                                      default=0)
 
+    user = models.ForeignKey(UserProfile,
+                             on_delete=models.CASCADE,
+                             verbose_name='用户',
+                             null=True)
+
     def __str__(self):
         return self.title
 
@@ -63,4 +71,29 @@ class Order(models.Model):
     class Meta:
         db_table = 't_order'
         verbose_name = '订单'
+        verbose_name_plural = verbose_name
+
+
+class OrderDetail(models.Model):
+    order = models.ForeignKey(Order,
+                              on_delete=models.CASCADE,
+                              verbose_name='订单')
+
+    book = models.ForeignKey(Book,
+                             on_delete=models.CASCADE,
+                             verbose_name='小说')
+
+    cnt = models.IntegerField(verbose_name='数量',
+                              default=1)
+
+    price = models.DecimalField(verbose_name='单价',
+                                max_digits=10,
+                                decimal_places=2)
+
+    def __str__(self):
+        return self.order.title
+
+    class Meta:
+        db_table = 't_order_detail'
+        verbose_name = '订单详情'
         verbose_name_plural = verbose_name

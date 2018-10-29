@@ -124,14 +124,24 @@ MEDIA_URL = '/static/images/'
 
 # ----配置Django-Celery------
 import djcelery
+from celery.schedules import crontab, timedelta
 
 djcelery.setup_loader()
 
 # 消息中间件位置(Redis)
 # BROKER_URL = 'redis://:密码@127.0.0.1:6379/11'
 BROKER_URL = 'redis://127.0.0.1:6379/11'
-CELERY_IMPORTS = ('order.tasks', )  # 导入异步任务的模块
+CELERY_IMPORTS = ('order.tasks',)  # 导入异步任务的模块
 CELERY_TIMEZONE = 'Asia/Shanghai'
 
+# 配置定时任务
+CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
+CELERYBEAT_SCHEDULE = {
+    '同步生成订单': {
+        'task': 'order.tasks.add_order',
+        'schedule': timedelta(seconds=10),
+        'args': ()
+    }
+}
 
 # -----End Django-Celery-----
