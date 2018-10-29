@@ -40,7 +40,7 @@
                         </div>
                         <div>
                             <a class="btn btn-danger" onclick="qbuy_read({{ book.id }}, this)">免费阅读</a>
-                            <a class="btn btn-info">加入书架</a>
+                            <a class="btn btn-info" onclick="add_cart({{ book_id }})">加入书架</a>
                             <a class="btn btn-info">投票互动</a>
                         </div>
                     </div>
@@ -99,6 +99,26 @@
 
                         })
                     }, 1000)
+                }
+            })
+        }
+
+        // 添加购物车
+        function add_cart(book_id) {
+            cnt = $('#cart_cnt').text()
+            if (cnt == '') cnt = 0;
+            // 将字符串转成整数(Number, float, int)
+            // Number()
+            // parseFloat()
+            $('#cart_cnt').text(parseInt(cnt)+1);
+            url = '/cart/add/book_id/'.replace('book_id', book_id);
+            $.getJSON(url, function (data) {
+                if(data.code == 200){
+                    alert(data.msg);
+                }else {
+                    if(confirm('用户未登录，是否跳转到登录页面')){
+                        window.open('/user/login/', target='_self');
+                    }
                 }
             })
         }

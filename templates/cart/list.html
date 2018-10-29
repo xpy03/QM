@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block css %}
+    <link rel="stylesheet" href="/static/cart/css/cart.css">
+{% endblock %}
+
+{% block content %}
+    <div id="cart_list">
+        <h3 class="text-center">我的购物车</h3>
+        <table class="table table-hover">
+            <tr>
+                <th>
+                    <input type="checkbox" id="c_all">
+                </th>
+                <th>商品名</th>
+                <th>单价(元)</th>
+                <th>数量</th>
+                <th style="width:200px;">操作</th>
+            </tr>
+            {% if goods_list %}
+
+
+                {% for goods, cnt in goods_list %}
+                    <tr>
+                        <td>
+                            <input type="checkbox"
+                                   id="c_{{ goods_id }}"
+                                   value="{{ goods_id }}">
+                        </td>
+                        <td>{{ goods.title }}</td>
+                        <td>￥ 100</td>
+                        <td><a class="btn btn-info btn-sm">-</a>{{ cnt }}<a class="btn btn-info btn-sm">+</a></td>
+                        <td>
+                            <a class="btn btn-danger">删除</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                <tr>
+                    <td colspan="5" align="right" style="padding-right: 100px">
+                        <span style="padding-right: 10px;"><b>总金额:</b> </span>￥ 10000</span></span>
+                        <a class="btn btn-primary" style="margin-left:300px;">结算</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5" align="center">
+                        <h4>暂无数据</h4>
+                    </td>
+                </tr>
+            {% endif %}
+
+        </table>
+    </div>
+{% endblock %}
+
+{% block js %}
+
+{% endblock %}

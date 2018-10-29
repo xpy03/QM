@@ -32,5 +32,6 @@ urlpatterns = [
     url(r'^book/', include('content.urls')),
     url(r'^user/', include('user.urls')),
     url(r'^order/', include('order.urls')),
+    url(r'^cart/', include('cart.urls')),
     url(r'', to_index),
 ]

@@ -14,6 +14,7 @@ from django.views.decorators.csrf import csrf_exempt
 from QM import settings
 from user.forms import UserForm
 from user.models import UserProfile
+from utils import cart
 
 
 @csrf_exempt
@@ -51,6 +52,7 @@ def login(request):
                     'nickname': user.nickname,
                     'photo': user.photo
                 }
+                request.session['cart_cnt'] = cart.count_cart(user.id)
                 return redirect('/')
             else:
                 errors['msg'] = '登录口令不正确！'
@@ -61,7 +63,8 @@ def login(request):
 def logout(request):
     # 从哪个页面请求过来的
     print('Referer:', request.META.get('Referer'))
-    del request.session['login_user']
+    # del request.session['login_user']
+    request.session.clear()  # 清空
     return redirect('/')
 
 

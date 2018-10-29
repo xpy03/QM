@@ -7,6 +7,7 @@
     <title>{% block title %}趣文小说网{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'base/css/bootstrap-theme.min.css' %}">
     <link rel="stylesheet" href="{% static 'base/css/bootstrap.min.css' %}">
+<link rel="stylesheet" href="{% static 'base/css/base.css' %}">
     {% block css %} {% endblock %}
 </head>
 <body>
@@ -37,6 +38,8 @@
                 <button type="submit" class="btn btn-warning">搜索</button>
             </form>
             <ul class="nav navbar-nav navbar-right">
+                <li class="cart"><span class="glyphicon glyphicon-shopping-cart" style=""></span><span><a href="/cart/list/">购物车</a></span>
+                    <span id="cart_cnt" style="{% if not request.session.cart_cnt %}display:none{% endif %}">{{ request.session.cart_cnt }}</span></li>
                 {% if request.session.login_user %}
                     <li>
                         <img width="40" height="40" class="img-circle" style="margin-top: 2px;"
