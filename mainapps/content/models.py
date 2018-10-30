@@ -70,6 +70,11 @@ class Book(models.Model):
                                  on_delete=models.CASCADE,
                                  verbose_name='分类')
 
+    price = models.DecimalField(verbose_name='单价',
+                                max_digits=10,
+                                decimal_places=2,
+                                default=0)
+
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
         if len(self.cover.name) < 30:
