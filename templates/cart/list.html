@@ -32,7 +32,7 @@
                         <td><a class="btn btn-info btn-sm">-</a><span id="cnt_{{ goods.id }}">{{ cnt }}</span><a
                                 class="btn btn-info btn-sm">+</a></td>
                         <td>
-                            <a class="btn btn-danger">删除</a>
+                            <a class="btn btn-danger" onclick="del_cart({{ goods.id }})">删除</a>
                         </td>
                     </tr>
                 {% endfor %}
@@ -40,7 +40,7 @@
                 <tr>
                     <td colspan="5" align="right" style="padding-right: 100px">
                         <span style="padding-right: 10px;"><b>总金额:</b> ￥</span> <span id="total_price">0</span>
-                        <a class="btn btn-primary" style="margin-left:300px;">结算</a>
+                        <a class="btn btn-primary" style="margin-left:300px;" onclick="go_pay()">结算</a>
                     </td>
                 </tr>
             {% else %}
@@ -57,6 +57,21 @@
 
 {% block js %}
     <script>
+        function go_pay() {
+            //获取所有已勾选商品的id
+            let cks =$('tbody>tr>td>input[type="checkbox"]')
+            let ids = ''
+            for(let i=0;i< cks.length; i++){
+                if(cks[i].checked){
+                    ids = ids+cks[i].value+','
+                }
+            }
+            alert('所有勾选的商品id:' + ids);
+            // 后端接口
+            window.open('/cart/go_pay/?ids='+ids, target='_self');
+
+        }
+
         // checkbox_node是DOM对象(Checkbox对象)
         function count_price(checkbox_node) {
             let price_id = '#price_' + checkbox_node.value;
@@ -109,6 +124,34 @@
             })
         });
 
+        function del_cart(goods_id) {
+            let node = $('#c_'+goods_id); // checkbox控件
+            // 提示 是否移除 xxxx 商品?
+            let td = node[0].parentElement;
+            if(! confirm("是否确认移除 "+td.nextElementSibling.textContent+" ?")){
+                return;
+            }
+
+
+            let cprice = count_price(node[0]);
+
+            if(node[0].checked) {
+                node[0].checked = false;
+                count_total_price(node[0], cprice);
+            }
+
+            // 删除此行
+            let tr_element = node[0].parentElement.parentElement;
+            tr_element.parentElement.removeChild(tr_element);
+
+            //请求后台接口(url), 从购物车中删除商品
+            url = '/cart/del/'+goods_id+"/"
+            $.getJSON(url ,function (data) {
+                if(data.code == 200){
+                    alert(data.msg);
+                }
+            })
+        }
 
     </script>
 {% endblock %}
