@@ -19,25 +19,27 @@
             </tr>
             {% if goods_list %}
 
-
+                <tbody>
                 {% for goods, cnt in goods_list %}
                     <tr>
                         <td>
                             <input type="checkbox"
-                                   id="c_{{ goods_id }}"
-                                   value="{{ goods_id }}">
+                                   id="c_{{ goods.id }}"
+                                   value="{{ goods.id }}">
                         </td>
                         <td>{{ goods.title }}</td>
-                        <td>￥ 100</td>
-                        <td><a class="btn btn-info btn-sm">-</a>{{ cnt }}<a class="btn btn-info btn-sm">+</a></td>
+                        <td>￥ <span id="price_{{ goods.id }}">{{ goods.price }}</span></td>
+                        <td><a class="btn btn-info btn-sm">-</a><span id="cnt_{{ goods.id }}">{{ cnt }}</span><a
+                                class="btn btn-info btn-sm">+</a></td>
                         <td>
                             <a class="btn btn-danger">删除</a>
                         </td>
                     </tr>
                 {% endfor %}
+                </tbody>
                 <tr>
                     <td colspan="5" align="right" style="padding-right: 100px">
-                        <span style="padding-right: 10px;"><b>总金额:</b> </span>￥ 10000</span></span>
+                        <span style="padding-right: 10px;"><b>总金额:</b> ￥</span> <span id="total_price">0</span>
                         <a class="btn btn-primary" style="margin-left:300px;">结算</a>
                     </td>
                 </tr>
@@ -54,5 +56,59 @@
 {% endblock %}
 
 {% block js %}
+    <script>
+        // checkbox_node是DOM对象(Checkbox对象)
+        function count_price(checkbox_node) {
+            let price_id = '#price_' + checkbox_node.value;
+            let cnt_id = '#cnt_' + checkbox_node.value;
 
+            let price = parseFloat($(price_id).text())  // NaN
+            let cnt = parseInt($(cnt_id).text());
+
+            return price * cnt;
+        }
+
+        function count_total_price(checkbox_node, cprice) {
+            let total_price = parseFloat($('#total_price').text());
+            if (checkbox_node.checked) {
+                $('#total_price').text(total_price + cprice);
+            } else {
+                $('#total_price').text(total_price - cprice);
+            }
+        }
+
+        $(function () {
+            // 获取当前文档下的所有checkbox，并设置选择事件
+            $('input[type="checkbox"]').on('change', function (ev) {
+                let node = $(this);
+                if (node[0].id == 'c_all') {
+                    // 选择tbody下的所有checkbox
+                    checkboxes = $('tbody>tr>td>input[type="checkbox"]');
+                    for (let i = 0; i < checkboxes.length; i++) {
+                        if (checkboxes[i].checked != node[0].checked) {
+
+                            //改变全选或取消全选的状态
+                            checkboxes[i].checked = node[0].checked;
+
+                            //统计小计和总金额
+                            count_total_price(checkboxes[i],
+                                count_price(checkboxes[i]))
+                        }
+                    }
+                    return;
+                }
+
+                //DOM对象转成jQuery对象:  $(dom) 或jQuery(dom)
+                //jQuery对象转成DOM 对象： node[0] -> Document对象
+                count_total_price(node[0], count_price(node[0]));
+
+                //判断当前的状态如果是取消勾选，则取消全选
+                if(! node[0].checked){
+                    $('#c_all')[0].checked=false;
+                }
+            })
+        });
+
+
+    </script>
 {% endblock %}

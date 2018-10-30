@@ -18,5 +18,7 @@ def add_cart(req, book_id):
 def list(req):
     user_id = req.session.get('login_user').get('id')
     goods_list = cart.list_cart(user_id)
+
+    total_price = sum([book.price*cnt for book, cnt in goods_list])
     return render(req, 'cart/list.html', locals())
 
