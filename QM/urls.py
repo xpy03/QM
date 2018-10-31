@@ -3,6 +3,7 @@ from django.core.paginator import Paginator
 from django.shortcuts import render
 
 import xadmin as admin
+import api
 
 from content.models import Category, Book
 
@@ -33,5 +34,7 @@ urlpatterns = [
     url(r'^user/', include('user.urls')),
     url(r'^order/', include('order.urls')),
     url(r'^cart/', include('cart.urls')),
+    url(r'^api-auth/', include('rest_framework.urls')),
+    url(r'^api/', include(api.router.urls)),
     url(r'', to_index),
 ]
