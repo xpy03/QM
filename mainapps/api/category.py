@@ -4,6 +4,8 @@ from content.models import Category
 
 
 class CategorySerializer(serializers.HyperlinkedModelSerializer):
+    add_time = serializers.DateTimeField(format='%Y-%m-%d %H:%M:%S')
+
     class Meta:
         model = Category
         fields = ('id', 'title', 'add_time')
